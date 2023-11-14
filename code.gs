@@ -152,7 +152,7 @@ function santaPairingFn() {
     sheet.getRange('C'+row.toString()).setValue(mailStatus)
     row += 1
   }
-  // Utilities.sleep(60000)
+  Utilities.sleep(60000)
   var threads = GmailApp.search('Secret Santa Pairing');
   for (thread in threads) {
     Gmail.Users.Threads.remove('me', threads[thread].getId());
