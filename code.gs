@@ -52,19 +52,6 @@ function setupFn() {
       .build());
   sheet.setConditionalFormatRules(rules);
 }
-function showSidebarFn(notification) {
-  var html = HtmlService
-    .createHtmlOutput(`${notification}`)
-    .setTitle('Action Process');
-  SpreadsheetApp.getUi().showSidebar(html);
-}
-
-function closeSidebarFn() {
-  var html = HtmlService
-    .createHtmlOutput("<script>google.script.host.close();</script>")
-    .setTitle('Action Process');
-  SpreadsheetApp.getUi().showSidebar(html);
-}
 
 function shuffle(array) {
   let currentIndex = array.length,  randomIndex;
@@ -155,7 +142,13 @@ function santaPairingFn() {
   Utilities.sleep(60000)
   var threads = GmailApp.search('Secret Santa Pairing');
   for (thread in threads) {
-    Gmail.Users.Threads.remove('me', threads[thread].getId());
+    try{
+      // This will delete threads permanently. But Gmail API should be added to into Services (Leftside)
+      Gmail.Users.Threads.remove('me', threads[thread].getId());
+    } catch (err) {
+      // This will delete the mails/threads from Sent Mail to Bin
+      GmailApp.getThreadById(threads[thread].getId()).moveToTrash()
+    }
   }
   if (errorStatusList.length > 1) {
     SpreadsheetApp.getUi().showSidebar(HtmlService.createHtmlOutput(errorStatusList).setTitle('Unable to send mails to following people:'));
