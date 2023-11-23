@@ -162,7 +162,7 @@ function clearAllFn() {
 
 function onOpen() {
   var ui = SpreadsheetApp.getUi()
-  ui.createMenu('PPStrom Secret Santa')
+  ui.createMenu('Secret Santa Gift exchange')
     .addItem('Setup Sheet', 'setupFn')
     .addSeparator()
     .addItem('Secret Santa Pairing', 'santaPairingFn')
